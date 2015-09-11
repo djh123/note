@@ -1,0 +1,51 @@
+<!DOCTYPE html><html><head><title>adb shell am 和 wm的学习</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-7" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-181" class="wmd-preview-section preview-content">
+
+<h3 id="adb-shell-am-和-wm的学习">adb shell am 和 wm的学习</h3>
+
+<p>使用此命令可以从cmd控制台启动 activity, services；发送 broadcast等等：</p></div><div id="wmd-preview-section-78" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs r"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div>C:\Users\Administrator&gt;adb shell am</div><div>usage: am [subcommand] [options]</div><br><div>    start an Activity: am start [-D] [-W] &lt;INTENT&gt;</div><div>        -D: enable debugging</div><div>        -W: wait <span class="hljs-keyword">for</span> launch to complete</div><br><div>    start a Service: am startservice &lt;INTENT&gt;</div><br><div>    send a broadcast Intent: am broadcast &lt;INTENT&gt;</div><br><div>    start an Instrumentation: am instrument [flags] &lt;COMPONENT&gt;</div><div>        -r: print raw results (otherwise decode REPORT_KEY_STREAMRESULT)</div><div>        -e &lt;NAME&gt; &lt;VALUE&gt;: set argument &lt;NAME&gt; to &lt;VALUE&gt;</div><div>        -p &lt;FILE&gt;: write profiling data to &lt;FILE&gt;</div><div>        -w: wait <span class="hljs-keyword">for</span> instrumentation to finish before returning</div><br><div>    start profiling: am profile &lt;PROCESS&gt; start &lt;FILE&gt;</div><div>    <span class="hljs-keyword">stop</span> profiling: am profile &lt;PROCESS&gt; <span class="hljs-keyword">stop</span></div><br><div>    start monitoring: am monitor [--gdb &lt;port&gt;]</div><div>        --gdb: start gdbserv on the given port at crash/ANR</div><br><div>    &lt;INTENT&gt; specifications include these flags:</div><div>        [-a &lt;ACTION&gt;] [-d &lt;DATA_URI&gt;] [-t &lt;MIME_TYPE&gt;]</div><div>        [-c &lt;CATEGORY&gt; [-c &lt;CATEGORY&gt;] <span class="hljs-keyword">...</span>]</div><div>        [-e|--es &lt;EXTRA_KEY&gt; &lt;EXTRA_STRING_VALUE&gt; <span class="hljs-keyword">...</span>]</div><div>        [--esn &lt;EXTRA_KEY&gt; <span class="hljs-keyword">...</span>]</div><div>        [--ez &lt;EXTRA_KEY&gt; &lt;EXTRA_BOOLEAN_VALUE&gt; <span class="hljs-keyword">...</span>]</div><div>        [-e|--ei &lt;EXTRA_KEY&gt; &lt;EXTRA_INT_VALUE&gt; <span class="hljs-keyword">...</span>]</div><div>        [-n &lt;COMPONENT&gt;] [-f &lt;FLAGS&gt;]</div><div>        [--grant-read-uri-permission] [--grant-write-uri-permission]</div><div>        [--debug-log-resolution]</div><div>        [--activity-brought-to-front] [--activity-clear-top]</div><div>        [--activity-clear-when-task-reset] [--activity-exclude-from-recents]</div><div>        [--activity-launched-from-history] [--activity-multiple-task]</div><div>        [--activity-no-animation] [--activity-no-history]</div><div>        [--activity-no-user-action] [--activity-previous-is-top]</div><div>        [--activity-reorder-to-front] [--activity-reset-task-<span class="hljs-keyword">if</span>-needed]</div><div>        [--activity-single-top]</div><div>        [--receiver-registered-only] [--receiver-replace-pending]</div><div>        [&lt;URI&gt;]</div><br></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+<p>使用实例： <br>
+<strong>如启动一个 Activity：</strong> <br>
+格式： <br>
+<code>adb shell am start -n 包名/包名＋类名（-n 类名,-a action,-d date,-m MIME-TYPE,-c category,-e扩展数据)</code></p>
+
+<ul><li>实例1：</li>
+</ul></div><div id="wmd-preview-section-100" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs avrasm"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><span class="hljs-label">C:</span>\Users\Administrator&gt;adb shell am start -n <span class="hljs-keyword">com</span>.android.camera/.Camera</div><div><span class="hljs-label">Starting:</span> Intent { cmp=<span class="hljs-keyword">com</span>.android.camera/.Camera }</div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+<ul><li>实例2：（带extra 的 intent）</li>
+</ul>
+
+</div><div id="wmd-preview-section-136" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs avrasm"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><span class="hljs-label">C:</span>\Users\Administrator&gt;adb shell am start -n <span class="hljs-keyword">com</span>.android.camera/.Camera -e abc hello</div><div><span class="hljs-label">Starting:</span> Intent { cmp=<span class="hljs-keyword">com</span>.android.camera/.Camera (has extras) }</div><div>其中 extra 的 key 为 abc ,value 为字串 <span class="hljs-string">"hello"</span></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+<p><strong>还可以发送命令模拟手机低电环境：</strong></p>
+
+<ul><li>实例：</li>
+</ul>
+
+</div><div id="wmd-preview-section-239" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs stylus"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div>adb shell am broadcast -<span class="hljs-tag">a</span> android<span class="hljs-class">.intent</span><span class="hljs-class">.action</span><span class="hljs-class">.BATTERY_CHANGED</span> --ei <span class="hljs-string">"level"</span> <span class="hljs-number">3</span> --ei <span class="hljs-string">"scale"</span> <span class="hljs-number">100</span></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+</div><div id="wmd-preview-section-407" class="wmd-preview-section preview-content">
+
+<h4 id="wm">wm</h4>
+
+<p>adb shell wm size 1200x720</p>
+
+<p>adb shell wm size 800x480 <br>
+adb shell wm density 240 <br>
+adb shell wm overscan reset</p>
+
+<p>djh S2 模拟S1 机器</p></div><div id="wmd-preview-section-304" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs elixir"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div>root<span class="hljs-variable">@H2000</span><span class="hljs-symbol">:/</span> <span class="hljs-comment"># wm density 160                                                  </span></div><div>root<span class="hljs-variable">@H2000</span><span class="hljs-symbol">:/</span> <span class="hljs-comment"># wm size 768x1024</span></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

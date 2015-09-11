@@ -1,0 +1,36 @@
+<!DOCTYPE html><html><head><title>像素 720dp sw720dp DPI 关系？？？</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-126" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-674" class="wmd-preview-section preview-content">
+
+<h3 id="像素-720dp-sw720dp-dpi-关系">像素 720dp sw720dp DPI 关系？？？</h3>
+
+<p>四种屏幕尺寸分类：: small, normal, large, and xlarge <br>
+四种密度分类: ldpi (low), mdpi (medium), hdpi (high), and xhdpi (extra high) <br>
+需要注意的是: xhdpi是从 Android 2.2 (API Level 8)才开始增加的分类. <br>
+xlarge是从Android 2.3 (API Level 9)才开始增加的分类. <br>
+DPI是<strong>“dot per inch”</strong> 的缩写，每英寸像素数。</p>
+
+<p>一般情况下的普通屏幕：ldpi是120，mdpi是160，hdpi是240，xhdpi是320。</p>
+
+<p>根据dpi值准备5套图片资源，drawable，drawalbe-ldpi,drawable-mdpi,drawable-hdpi,drawable-xhdpi</p>
+
+<p>在每英寸160点的显示器上，1dp = 1px。 以这个基准可以算出 其它的比例。</p>
+
+<p>比如我手上有 1280*720的红米手机  4.7寸的   可知 每英寸像素 DPI 320  可以通过程序获得。  那么 1dp=2px；</p>
+
+<p>sw720 的dp 的意思是最小720dp   红米手机的宽720px/2=360 所有  红米手机 应该是sw360   android 在运行程序的时候应该会找 drawable-xhdpi 文件下的图片 和 values-sw340dp 下的资源</p>
+
+<p><strong>在代码中获取屏幕像素、屏幕密度</strong> </p>
+
+</div><div id="wmd-preview-section-687" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs processing"><div><div><div>DisplayMetrics metric = <span class="hljs-keyword">new</span> DisplayMetrics(); </div><div>getWindowManager().getDefaultDisplay().getMetrics(metric); </div><div><span class="hljs-built_in">int</span> <span class="hljs-variable">width</span> = metric.widthPixels; <span class="hljs-comment">// 屏幕宽度（像素） </span></div><div><span class="hljs-built_in">int</span> <span class="hljs-variable">height</span> = metric.heightPixels; <span class="hljs-comment">// 屏幕高度（像素） </span></div><div><span class="hljs-built_in">float</span> density = metric.density; <span class="hljs-comment">// 屏幕密度（0.75 / 1.0 / 1.5） </span></div><div><span class="hljs-built_in">int</span> densityDpi = metric.densityDpi; <span class="hljs-comment">// 屏幕密度DPI（120 / 160 / 240） </span></div></div></div></code></pre>
+
+<p><strong>Android支持下列所有单位。</strong> <br>
+px（像素）：屏幕上的点。 <br>
+in（英寸）：长度单位。 <br>
+mm（毫米）：长度单位。 <br>
+pt（磅）：1/72英寸。 <br>
+dp（与密度无关的像素）：一种基于屏幕密度的抽象单位。在每英寸160点的显示器上，1dp = 1px。 <br>
+dip：与dp相同，多用于android/ophone示例中。 <br>
+sp（与刻度无关的像素）：与dp类似，但是可以根据用户的字体大小首选项进行缩放。</p></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

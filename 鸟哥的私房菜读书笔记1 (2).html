@@ -1,0 +1,182 @@
+<!DOCTYPE html><html><head><title>鸟哥的私房菜读书笔记1</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-438" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-439" class="wmd-preview-section preview-content">
+
+<h3 id="鸟哥的私房菜读书笔记1">鸟哥的私房菜读书笔记1</h3>
+
+<hr>
+
+<p><strong>硬盘的代号意义：</strong></p>
+
+<blockquote>
+  <p>在 Windows 或者是 DOS 年代,硬盘以 FAT 表来切分时,他们的代表扇区为 C: D: E: …但是在 Linux 中 <br>
+  则不然喔!一个『目录』可以代表一个『装置』!基本上,每一个硬盘在安插的 IDE 接口中,都有不同的 <br>
+  代号:</p>
+</blockquote>
+
+<table>
+<thead>
+<tr>
+  <th align="left">硬盘安插的 IDE 接口</th>
+  <th align="right">Linux 上面的磁盘名称</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">第一个 IDE 的 Master 上之硬盘</td>
+  <td align="right">hda</td>
+</tr>
+<tr>
+  <td align="left">第一个 IDE 的 Slave 硬盘</td>
+  <td align="right">hdb</td>
+</tr>
+<tr>
+  <td align="left">第二个 IDE 的 Master 硬盘</td>
+  <td align="right">hdc</td>
+</tr>
+<tr>
+  <td align="left">第二个 IDE 的 Slave 硬盘</td>
+  <td align="right">hdd</td>
+</tr>
+</tbody></table>
+
+
+<blockquote>
+  <p>另外,需要特别留意的是,每一个硬盘(例如 hda )最多可以有 4 个 primary 扇区!分别是 hda1, hda2, <br>
+  hda3, hda4!而如果是逻辑扇区的话,那么就需要由 hda5 开始增加啰!</p>
+</blockquote>
+
+</div><div id="wmd-preview-section-440" class="wmd-preview-section preview-content">
+
+<h3 id="鸟哥的私房菜读书笔记2">鸟哥的私房菜读书笔记2</h3>
+
+<p>在预设的情况下, 无法支持以中文编码输出数据的。这个时 <br>
+候,我们就得将支持语系改为英文,才能够显示出正确的讯息。 那怎么做呢?您可以这样做:</p>
+
+</div><div id="wmd-preview-section-441" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs">[root<span class="hljs-annotation">@linux</span> ~]# LANG=en
+[root<span class="hljs-annotation">@linux</span> ~]# LANGUAGE=en
+[root<span class="hljs-annotation">@linux</span> ~]# LC_ALL=en
+[root<span class="hljs-annotation">@linux</span> ~]# LC_CTYPE=en
+[root<span class="hljs-annotation">@linux</span> ~]# LC_TIME=en</code></pre>
+
+<p>我们立刻来操作几个简单的指令看看啰!</p>
+
+<ul><li>显示日期的指令: date</li>
+<li>显示日历的指令: cal</li>
+<li>简单好用的计算器: bc</li>
+</ul>
+
+<p><strong>1 显示日期的指令: date</strong></p>
+
+<blockquote>
+  <p>如果在文字接口上面,想要知道目前的时间,那么就直接在指令列模式输入 date 即可显示:</p>
+</blockquote>
+
+</div><div id="wmd-preview-section-442" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs mel">[root<span class="hljs-variable">@linux</span> ~]# <span class="hljs-keyword">date</span>
+Thu Jun <span class="hljs-number">23</span> <span class="hljs-number">11</span>:<span class="hljs-number">32</span>:<span class="hljs-number">02</span> CST <span class="hljs-number">2005</span>
+[root<span class="hljs-variable">@linux</span> ~]# <span class="hljs-keyword">date</span> +<span class="hljs-variable">%Y</span>/<span class="hljs-variable">%m</span>/<span class="hljs-variable">%d</span>
+<span class="hljs-number">2005</span>/<span class="hljs-number">06</span>/<span class="hljs-number">23</span>
+[root<span class="hljs-variable">@linux</span> ~]# <span class="hljs-keyword">date</span> +<span class="hljs-variable">%H</span>:<span class="hljs-variable">%M</span>
+<span class="hljs-number">11</span>:<span class="hljs-number">35</span></code></pre>
+
+<p><strong>2.显示日历的指令: cal</strong></p>
+
+<p>那如果我想要列出目前这个月份的月历呢?呵呵!直接给他下达 cal 即可!</p>
+
+</div><div id="wmd-preview-section-443" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs scheme"><span class="hljs-list">[<span class="hljs-keyword">root@linux</span> ~]# cal
+基本上, cal <span class="hljs-list">(<span class="hljs-keyword">calendar</span>)</span> 这个指令可以做的事情还很多,你可以显示整年的月历情况:
+<span class="hljs-list">[<span class="hljs-keyword">root@linux</span> ~]# cal <span class="hljs-number">2005</span>
+
+也就是说,基本上, cal 接的语法为:
+<span class="hljs-list">[<span class="hljs-keyword">root@linux</span> ~]# cal <span class="hljs-list">[<span class="hljs-keyword">month</span>] <span class="hljs-list">[<span class="hljs-keyword">year</span>]
+所以,我想要知道 <span class="hljs-number">2005</span> 年 <span class="hljs-number">7</span> 月的月历,可以直接下达:</span></span></span></span></span></code></pre>
+
+<p>所以,未来您可以很轻易的就以 cal 来取得日历上面的日期啰!简直就是万年历啦! ^_^</p>
+
+<ol><li>简单好用的计算器: bc <br>
+如果我想要使用简单的计算器呢?很容易呀!就使用 bc 即可!在输入 bc 之后, 显示出版本信息之后, <br>
+就进入到等待指示的阶段。如下所示:</li>
+</ol>
+
+</div><div id="wmd-preview-section-444" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs stata">[root@linux ~]# bc
+bc 1.06
+<span class="hljs-keyword">Copyright</span> 1991-1994, 1997, 1998, 2000 Free Software Foundation, Inc.
+This is free software with ABSOLUTELY <span class="hljs-keyword">NO</span> WARRANTY.
+<span class="hljs-keyword">For</span> details <span class="hljs-keyword">type</span> <span class="hljs-label">`warranty'</span>.
+_&lt;==这个时候,光标会停留在这里等待您的输入事实上,我们是『进入到 bc 这个指令的工作环境当中』了! 就好像我们在 
+Windows 里面使用『小算盘』</code></pre>
+
+<p>一样!所以,我们底下尝试输入的数据, 都是在 bc 程序当中在进行运算的动作。所以啰,您输入的数据 <br>
+当然就得要符合 bc 的要求才行! 在基本的 bc 计算器操作之前,先告知几个使用的运算子好了: <br>
+• + 加法 <br>
+• - 减法 <br>
+• * 乘法 <br>
+• / 除法 <br>
+• ^ 指数 <br>
+• % 余数 <br>
+好!让我们来使用 bc 计算一些咚咚吧!</p>
+
+</div><div id="wmd-preview-section-445" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs stata">[root@linux ~]# bc
+bc 1.06
+<span class="hljs-keyword">Copyright</span> 1991-1994, 1997, 1998, 2000 Free Software Foundation, Inc.
+This is free software with ABSOLUTELY <span class="hljs-keyword">NO</span> WARRANTY.
+<span class="hljs-keyword">For</span> details <span class="hljs-keyword">type</span> <span class="hljs-label">`warranty'</span>.
+1+2+3+4
+&lt;==只有加法时
+10
+7-8+3
+2
+10*52
+520
+10%3
+&lt;==计算『余数』
+1
+10^2
+100
+10/100
+&lt;==这个最奇怪!不是应该是 0.1 吗?
+0
+quit
+&lt;==离开 bc 这个计算器</code></pre>
+
+<p>在上表当中,粗体字表示输入的数据,而在每个粗体字的底下就是输出的结果。 咦!每个计算都还算正确, <br>
+怎么 10/100 会变成 0 呢?这是 因为 bc 预设仅输出整数,如果要输出小数点下位数,那么就必须要执 <br>
+行 scale=number ,那个 number 就是小数点位数,例如:</p>
+
+</div><div id="wmd-preview-section-446" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs stata">[root@linux ~]# bc
+bc 1.06
+<span class="hljs-keyword">Copyright</span> 1991-1994, 1997, 1998, 2000 Free Software Foundation, Inc.
+This is free software with ABSOLUTELY <span class="hljs-keyword">NO</span> WARRANTY.
+<span class="hljs-keyword">For</span> details <span class="hljs-keyword">type</span> <span class="hljs-label">`warranty'</span>.
+scale=3
+1/3
+.333
+340/2349
+.144
+&lt;==没错!就是这里!!quit</code></pre>
+
+<p>好了!就是这样子啦!简单的很吧!以后你可以轻轻松松的进行加减乘除啦!</p>
+
+<p><strong>重要的几个热键[Tab], [ctrl]-c, [ctrl]-d</strong></p>
+
+<ul><li><strong>[Tab]  :</strong> 他具有『命令补全』与『档案补齐』的功能喔!</li>
+<li><strong>[ctrl]-c :</strong>  中断目前程序 的按键!</li>
+<li><strong>[Ctrl]-d :</strong>  那么 [Ctrl]-d 是什么呢?就是 [Ctrl] 与 d 按键的组合啊!这个组合按键通常代表着: 『键盘输入结 <br>
+束 (End Of File, EOF 或 End Of Input)』的意思! 另外,他也可以用来取代 exit 的输入呢!例如您 <br>
+想要直接离开文字接口, 可以直接按下 [Ctrl]-d 就能够直接离开了(相当于输入 exit 啊!)。 <br>
+总之,在 Linux 底下,文字接口的功能是很强悍的!要多多的学习他, 而要学习他的基础要诀就是…… <br>
+多使用、多熟悉啦!</li>
+</ul></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

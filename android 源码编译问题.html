@@ -1,0 +1,106 @@
+<!DOCTYPE html><html><head><title>android 源码编译问题</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-447" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-448" class="wmd-preview-section preview-content">
+
+<h3 id="android-源码编译问题">android 源码编译问题</h3>
+
+</div><div id="wmd-preview-section-449" class="wmd-preview-section preview-content">
+
+<h4 id="问题一">问题一：</h4>
+
+</div><div id="wmd-preview-section-450" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs applescript">Your <span class="hljs-property">version</span> <span class="hljs-keyword">is</span>: java <span class="hljs-property">version</span> <span class="hljs-string">"1.8.0_20"</span>. 
+The correct <span class="hljs-property">version</span> <span class="hljs-keyword">is</span>: <span class="hljs-number">1.6</span>.</code></pre>
+
+<p>貌似很早之前Ubuntu里面的JDK就被换成了open-jdk,试了下官网给的方法：</p>
+
+</div><div id="wmd-preview-section-451" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs smali">$ sudo<span class="hljs-instruction"> add-apt-repository </span><span class="hljs-string">"deb http://archive.canonical.com/ lucid partner"</span> 
+$ sudo apt-get update $ sudo apt-get install sun-java6-jdk</code></pre>
+
+<p>结果不怎么给力，好像也安装不了，记得以前可以的…直接去oracle网站下载JDK，现在一进入下载就只有JDK1.7的，找了一下JDK1.6的下载地址，如下： <br>
+ <a href="http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase6-419409.html#jdk-6u45-oth-JPR" target="_blank">http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase6-419409.html#jdk-6u45-oth-JPR</a>， <br>
+ 我记得我当时下载是单独注册了一个账号的，没有账号不让下载，太TM坑爹了。 <br>
+ 有了安装bin安装文件，我是直接放在我的用户目录下面的，然后执行：</p>
+
+</div><div id="wmd-preview-section-452" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs">    chmod +x jdk-<span class="hljs-number">6</span>u45-linux-x64.bin
+   ./jdk-<span class="hljs-number">6</span>u45-linux-x64.bin </code></pre>
+
+<p>执行后会在用户目录里面生成jdk目录：/home/chadm/jdk1.6.0_45。然后配置Java环境，执行命令：</p>
+
+</div><div id="wmd-preview-section-453" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs bash">   ~$ sudo gedit /etc/profile
+
+    在文件尾加上：
+
+         <span class="hljs-built_in">export</span> JAVA_HOME=/home/chadm/jdk1.<span class="hljs-number">6.0</span>_45
+         <span class="hljs-built_in">export</span> JRE_HOME=/home/chadm/jdk1.<span class="hljs-number">6.0</span>_45/jre  
+         <span class="hljs-built_in">export</span> CLASSPATH=.:<span class="hljs-variable">$JAVA_HOME</span>/lib:<span class="hljs-variable">$JRE_HOME</span>/lib:<span class="hljs-variable">$CLASSPATH</span>  </code></pre>
+
+<p>保存文件，然后执行：source /etc/profile。</p>
+
+<p>运行java -version和javac -version</p>
+
+</div><div id="wmd-preview-section-454" class="wmd-preview-section preview-content">
+
+<h4 id="问题二">问题二：</h4>
+
+<p>external/clearsilver/cgi/cgi.c:22:18: 致命错误: zlib.h: 没有那个文件或目录编译终端。</p>
+
+</div><div id="wmd-preview-section-455" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs q">sudo apt-<span class="hljs-built_in">get</span> install zlib1g-<span class="hljs-built_in">dev</span></code></pre>
+
+<p>sudo gedit /etc/profile</p>
+
+</div><div id="wmd-preview-section-456" class="wmd-preview-section preview-content">
+
+<h4 id="问题三javac-目标发行版-15-与默认的源发行版-18-冲突">问题三：javac: 目标发行版 1.5 与默认的源发行版 1.8 冲突</h4>
+
+<p>关于更新Ubuntu 源的问题 <br>
+不要把环境变量配置在/etc/environment和/etc/profile文件中，这样配置的在有的ubuntu版本上会出现退出当前终端后不起作用的问题，在ubuntu12.04上我就遇到了此问题。 <br>
+把环境变量配置在用户目录.bashrc文件中是最好的选择。</p>
+
+</div><div id="wmd-preview-section-457" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs bash"><span class="hljs-built_in">export</span> JAVA_HOME=/home/abc/jdk1.<span class="hljs-number">6.0</span>_45
+<span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$PATH</span>:<span class="hljs-variable">$JAVA_HOME</span>/bin:<span class="hljs-variable">$JAVA_HOME</span>/jre/bin
+<span class="hljs-built_in">export</span> CLASSPATH=.:<span class="hljs-variable">$JAVA_HOME</span>/lib:<span class="hljs-variable">$JAVA_HOME</span>/jre/lib</code></pre>
+
+<p>然后执行source .bashrc使配置生效即可。 <br>
+由于ubuntu中可能会有默认的jdk，如openjdk。假如有openjdk的话，所以，为了使默认使用的是我们安装的jdk，还要进行如下工作。在终端充输入：</p>
+
+</div><div id="wmd-preview-section-458" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs groovy">sudo update-alternatives --install <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/java java ~/</span>abc<span class="hljs-regexp">/jdk1.6.0_45/</span>bin/java <span class="hljs-number">300</span>
+sudo update-alternatives --install <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/javac javac ~/</span>abc<span class="hljs-regexp">/jdk1.6.0_45/</span>bin/javac <span class="hljs-number">300</span>
+sudo update-alternatives --install <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/javac javap ~/</span>abc<span class="hljs-regexp">/jdk1.6.0_45/</span>bin/javap <span class="hljs-number">300</span></code></pre>
+
+<p>通过这一步将我们安装的jdk加入java选单。 <br>
+然后执行以下命令设置默认的java jdk <br>
+sudo update-alternatives –config java <br>
+例如： <br>
+~/projects$ sudo update-alternatives –config java <br>
+[sudo] password for abc:  <br>
+有 4 个候选项可用于替换 java (提供 /usr/bin/java)。</p>
+
+<p>选择       路径                                          优先级  状态</p>
+
+</div><div id="wmd-preview-section-459" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs groovy">  <span class="hljs-number">0</span>            <span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/jvm/</span>java-<span class="hljs-number">6</span>-openjdk-amd64<span class="hljs-regexp">/jre/</span>bin/java   <span class="hljs-number">1061</span>      自动模式
+ *<span class="hljs-number">1</span>            <span class="hljs-regexp">/home/</span>abc<span class="hljs-regexp">/jdk1.6.0_45/</span>bin/java             <span class="hljs-number">300</span>       手动模式
+  <span class="hljs-number">2</span>            <span class="hljs-regexp">/usr/</span>bin/gij-<span class="hljs-number">4.6</span>                                 <span class="hljs-number">1046</span>      手动模式
+  <span class="hljs-number">3</span>            <span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/jvm/</span>java-<span class="hljs-number">6</span>-openjdk-amd64<span class="hljs-regexp">/jre/</span>bin/java   <span class="hljs-number">1061</span>      手动模式
+  <span class="hljs-number">4</span>            <span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/jvm/</span>java-<span class="hljs-number">7</span>-openjdk-amd64<span class="hljs-regexp">/jre/</span>bin/java   <span class="hljs-number">1051</span>      手动模式</code></pre>
+
+<p>要维持当前值[*]请按回车键，或者键入选择的编号：</p>
+
+<p>frameworks/base/core/java/android/content/pm/PackageParser.java:475: 找不到符号</p></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html><html><head><title>AIDL的学习</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-31" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-48" class="wmd-preview-section preview-content">
+
+<h4 id="aidl的学习">AIDL的学习</h4>
+
+<p>1.今天学习了android中aidl开发，即通过aidl实现android中两个进程之间的通信，我们通过在服务端利用aidl文件暴露接口，然后再客户端通过ServiceConnection来绑定这些接口，进而实现调用。 <br>
+首先新建服务端工程： <br>
+2.在com.example.aidlservice包下，新建一个ICat.aidl文件，内容如下：</p>
+
+</div><div id="wmd-preview-section-82" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs java"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div>[java] view plaincopy</div><div><span class="hljs-keyword">package</span> com.example.aidlservice;  </div><br><div><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ICat</span>  </span></div><div>{  </div><div>    <span class="hljs-function">String <span class="hljs-title">getColor</span><span class="hljs-params">()</span></span>;  </div><div>    <span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">getWeight</span><span class="hljs-params">()</span></span>;  </div><div>} </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+<p>此时，ADT会在gen目录下，自动生成ICat.java文件 <br>
+接下来定义一个Service实现类，该Service的onBind()方法所返回的IBinder对象就是ADT生成的ICat.Stub的子类的实例 <br>
+收先定义一个类继承自stub，需要实现刚才在ICat.aidl中定义的方法：</p>
+
+</div><div id="wmd-preview-section-103" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs nimrod"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div>[java] view plaincopy</div><div>public class <span class="hljs-type">IcatBinder</span> extends <span class="hljs-type">Stub</span> {  </div><br><div>        @<span class="hljs-type">Override</span>  </div><div>        public <span class="hljs-type">String</span> getColor() throws <span class="hljs-type">RemoteException</span> {  </div><div>            // <span class="hljs-type">TODO</span> <span class="hljs-type">Auto</span>-generated <span class="hljs-keyword">method</span> stub  </div><div>            <span class="hljs-keyword">return</span> colors[(<span class="hljs-type">int</span>)(<span class="hljs-type">Math</span>.random()*<span class="hljs-number">3</span>)];  </div><div>        }  </div><br><div>        @<span class="hljs-type">Override</span>  </div><div>        public double getWeight() throws <span class="hljs-type">RemoteException</span> {  </div><div>            // <span class="hljs-type">TODO</span> <span class="hljs-type">Auto</span>-generated <span class="hljs-keyword">method</span> stub  </div><div>            <span class="hljs-keyword">return</span> weights[(<span class="hljs-type">int</span>)(<span class="hljs-type">Math</span>.random()*<span class="hljs-number">3</span>)];  </div><div>        }  </div><div>    }</div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+<p>需要在onBind方法中返回该IcatBinder的实例对象,IcatBinder对象可以在onCreate中实例化</p>
+
+<p>另外还需要在AndroidManifest.xml中，配置该service</p>
+
+</div><div id="wmd-preview-section-129" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs xml"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div>[html] view plaincopy</div><div><span class="hljs-tag">&lt;<span class="hljs-title">service</span> <span class="hljs-attribute">android:name</span>=<span class="hljs-value">"com.example.aidlservice.AidlService"</span>&gt;</span>  </div><div>            <span class="hljs-tag">&lt;<span class="hljs-title">intent-filter</span>&gt;</span>  </div><div>                <span class="hljs-tag">&lt;<span class="hljs-title">action</span> <span class="hljs-attribute">android:name</span>=<span class="hljs-value">"com.example.action.myaidl"</span>/&gt;</span>  </div><div>            <span class="hljs-tag">&lt;/<span class="hljs-title">intent-filter</span>&gt;</span>  </div><div> <span class="hljs-tag">&lt;/<span class="hljs-title">service</span>&gt;</span>  </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+<p>这里需要注意的是，这里的action，是用来在客户端绑定该service用的</p>
+
+<p>接下来就是新建客户端工程访问AIDLService <br>
+AIDL定义了连个进程之间通信的接口，因此不仅服务端需要AIDL接口，客户端同样需要之前定义的AIDL接口，将之前定义的接口拷贝到客户端的和服务端同名的包内： <br>
+即在客户端新建一个包名称和服务端存放ICat.aidl同样包名的包：com.example.aidlservice  ，然后需要将服务端的ICat.aidl文件拷贝过来</p>
+
+<p>客户端绑定是通过ServiceConnection实现的： <br>
+首先声明绑定的代理：private ICat catService; <br>
+然后实现：ServiceConnection</p>
+
+</div><div id="wmd-preview-section-160" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs nimrod"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div>[java] view plaincopy</div><div>private <span class="hljs-type">ServiceConnection</span> conn = new <span class="hljs-type">ServiceConnection</span>() {  </div><br><div>        @<span class="hljs-type">Override</span>  </div><div>        public <span class="hljs-type">void</span> onServiceDisconnected(<span class="hljs-type">ComponentName</span> arg0) {  </div><div>            // <span class="hljs-type">TODO</span> <span class="hljs-type">Auto</span>-generated <span class="hljs-keyword">method</span> stub  </div><div>            catService = null;  </div><div>        }  </div><br><div>        @<span class="hljs-type">Override</span>  </div><div>        public <span class="hljs-type">void</span> onServiceConnected(<span class="hljs-type">ComponentName</span> arg0, <span class="hljs-type">IBinder</span> service) {  </div><div>            // <span class="hljs-type">TODO</span> <span class="hljs-type">Auto</span>-generated <span class="hljs-keyword">method</span> stub  </div><div>            catService = <span class="hljs-type">ICat</span>.<span class="hljs-type">Stub</span>.asInterface(service);  </div><div>        }  </div><div>}; </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+<p>接下来就可已调用服务端的方法了：catService.getColor()</p>
+
+<p>=================================================================== <br>
+下面看看在客户端和服务端传递自定义的数据类型： <br>
+需要注意的是，我们自定义的数据类型，如果需要在客户端和服务端之间传递，那么需要实现Parcelable接口: <br>
+我们新建一个Person类实现Parcelable接口： <br>
+重写writeToParcel方法：</p>
+
+</div><div id="wmd-preview-section-224" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs nimrod"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div>[java] view plaincopy</div><div>@<span class="hljs-type">Override</span>  </div><div>public <span class="hljs-type">void</span> writeToParcel(<span class="hljs-type">Parcel</span> dest, <span class="hljs-type">int</span> arg1) {  </div><div>    // <span class="hljs-type">TODO</span> <span class="hljs-type">Auto</span>-generated <span class="hljs-keyword">method</span> stub  </div><div>    dest.writeInt(personId);  </div><div>    dest.writeString(personName);  </div><div>    dest.writeString(personPass);  </div><div>    dest.writeInt(personAge);  </div><div>} </div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+<p>并且需要新建一个CREATOR的实例变量，这个变量的类型必须是： <br>
+<code>`public static final Parcelable.Creator&lt;Person&gt;</code>这样的 <br>
+这里需要注意的是这个实例变量的名称必须是：<strong>CREATOR</strong>，这是因为ADT在gen目录下生成的IPerson.java中生成的这样名称</p>
+
+</div><div id="wmd-preview-section-289" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs nimrod"><div><div><div><div><div><div><div><div><div><div><div><div><div>[java] view plaincopy</div><div>public <span class="hljs-keyword">static</span> final <span class="hljs-type">Parcelable</span>.<span class="hljs-type">Creator</span>&lt;<span class="hljs-type">Person</span>&gt; <span class="hljs-type">CREATOR</span> = new <span class="hljs-type">Parcelable</span>.<span class="hljs-type">Creator</span>&lt;<span class="hljs-type">Person</span>&gt;() {  </div><br><div>        @<span class="hljs-type">Override</span>  </div><div>        public <span class="hljs-type">Person</span> createFromParcel(<span class="hljs-type">Parcel</span> arg0) {  </div><div>            // <span class="hljs-type">TODO</span> <span class="hljs-type">Auto</span>-generated <span class="hljs-keyword">method</span> stub  </div><div>            <span class="hljs-type">Person</span> person = new <span class="hljs-type">Person</span>(arg0.readInt(),arg0.readString(),arg0.readString(),arg0.readInt());  </div><div>            <span class="hljs-keyword">return</span> person;  </div><div>        }  </div><br><div>        @<span class="hljs-type">Override</span>  </div><div>        public <span class="hljs-type">Person</span>[] newArray(<span class="hljs-type">int</span> arg0) {  </div><div>            // <span class="hljs-type">TODO</span> <span class="hljs-type">Auto</span>-generated <span class="hljs-keyword">method</span> stub  </div><div>            <span class="hljs-keyword">return</span> new <span class="hljs-type">Person</span>[arg0];  </div><div>        }  </div><div>};  </div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+<p>当<strong>person</strong>类声明好了以后，首先需将该类进行定义： <br>
+在存放<strong>aidl</strong>文件的包下，新建一个Person.aidl文件，内容如下：</p>
+
+</div><div id="wmd-preview-section-335" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs nginx"><div><div><div><div><div><div><div><div><span class="hljs-title">parcelable</span> Person; </div></div></div></div></div></div></div></div></code></pre>
+
+<p>然后新建需要暴漏给客户端调用的接口： <br>
+新建一个Iperson.aidl,内容如下：</p>
+
+</div><div id="wmd-preview-section-386" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs capnproto"><div><div><div>[html] view plaincopy</div><div>package com.example.aidlservice;  </div><br><div><span class="hljs-keyword">import</span> java.util.<span class="hljs-built_in">List</span>;  </div><div><span class="hljs-keyword">import</span> com.example.aidlservice.Person;  </div><br><div><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IPerson</span>  </span></div><div>{  </div><div>    <span class="hljs-built_in">List</span>&lt;Person&gt; getAllPerson();  </div><div>    Person getPersonById(<span class="hljs-keyword">in</span> int personId);  </div><div>}  </div></div></div></code></pre>
+
+<p>这里需要注意的是，必须得引入对应的包名和类，如果需要接受参数，需要需要在需要接受参数的数据类型前边加上in。</p>
+
+<p>需要注意的是：</p>
+
+<ul><li>1.如果需要传递自定义的类型：需要实现Parcelable接口</li>
+<li>2.服务端定义的service必须在Manifest.xml文件中声明</li>
+<li>3.如果需要传递自定义类型，还需要将自定义类型声明为aidl文件</li>
+<li>4.在服务端声明的aidl文件，在客户端必须要有一份相同的文件存在，并且，包名必须相同。这是因为aidl文件就相当于调用的接口，包名必须相同，通过ServiceConnection绑定该接口，然后，通过该aidl生成的接口调用对应的服务端的方法。</li>
+</ul></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

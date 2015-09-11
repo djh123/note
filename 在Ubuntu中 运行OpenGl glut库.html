@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><title>在Ubuntu中 运行OpenGl glut库</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-8" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-141" class="wmd-preview-section preview-content">
+
+<h3 id="在ubuntu中-运行opengl-glut库">在Ubuntu中 运行OpenGl glut库</h3>
+
+<ul><li><p>This time we focus on how to set up OpenGL for your Linux Mint 12 (It also should work fine with Ubuntu 12.04). For this task freeglut is going to be used. This is a open source and up to date alternative to the OpenGL Utility Toolkit. The official description of the freeglut project  says that</p></li>
+<li><p>freeglut is a completely OpenSourced alternative to the OpenGL Utility Toolkit (GLUT) library. GLUT was originally written by Mark Kilgard to support the sample programs in the second edition OpenGL ‘RedBook’. Since then, GLUT has been used in a wide variety of practical applications because it is simple, widely available and highly portable.</p></li>
+<li><p>GLUT (and hence freeglut) allows the user to create and manage windows containing OpenGL contexts on a wide range of platforms and also read the mouse, keyboard and joystick functions. <br>
+<strong>Step 1 - Install Compiler and necessary tools.</strong> <br>
+Since we are going to be programming with C++ , it is important to have the tool in your computer.  This following command will install a c++ compiler and <strong>cmake</strong> which is used to manage projects.</p></li>
+</ul>
+
+</div><div id="wmd-preview-section-150" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs actionscript"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div>sudo apt-<span class="hljs-keyword">get</span> install g++ cmake</div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+<p><strong>Step 2 - Lets install freeglut.</strong></p>
+
+<p>Done ! But we need to test it. <br>
+Now you can create a simple test program.</p>
+
+<p><strong>Step 3 - Test program - Create a ‘main.cpp’</strong></p>
+
+</div><div id="wmd-preview-section-199" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs cpp"><div><div><div><div><div><div><div><span class="hljs-preprocessor">#<span class="hljs-keyword">include</span> &lt;GL/glut.h&gt;</span></div><br><br><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">draw</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>{</div><br><div>    <span class="hljs-comment">// Black background</span></div><div>    glClearColor(<span class="hljs-number">0.0f</span>,<span class="hljs-number">0.0f</span>,<span class="hljs-number">0.0f</span>,<span class="hljs-number">1.0f</span>);</div><div>    glClear(GL_COLOR_BUFFER_BIT);</div><div>    <span class="hljs-comment">//Draw i</span></div><div>    glFlush();</div><br><div>}</div><br><div><span class="hljs-comment">//Main program</span></div><br><div><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span> </span>{</div><br><div>    glutInit(&amp;argc, argv);</div><br><div>    <span class="hljs-comment">/*Setting up  The Display</span></div><div>    /    -RGB color model + Alpha Channel = GLUT_RGBA</div><div>    */</div><div>    glutInitDisplayMode(GLUT_RGBA|GLUT_SINGLE);</div><br><div>    <span class="hljs-comment">//Configure Window Postion</span></div><div>    glutInitWindowPosition(<span class="hljs-number">50</span>, <span class="hljs-number">25</span>);</div><br><div>    <span class="hljs-comment">//Configure Window Size</span></div><div>    glutInitWindowSize(<span class="hljs-number">480</span>,<span class="hljs-number">480</span>);</div><br><div>    <span class="hljs-comment">//Create Window</span></div><div>    glutCreateWindow(<span class="hljs-string">"Hello OpenGL"</span>);</div><br><br><div>    <span class="hljs-comment">//Call to the drawing function</span></div><div>    glutDisplayFunc(draw);</div><br><div>    <span class="hljs-comment">// Loop require by OpenGL</span></div><div>    glutMainLoop();</div><div>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</div><div>}</div></div></div></div></div></div></div></code></pre>
+
+<p><strong>Step 4 - Let’s Compile it</strong></p>
+
+<p>The first and the easiest option to compile is by using the command :</p>
+
+</div><div id="wmd-preview-section-215" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs bash"><div><div><div><div>g++ <span class="hljs-operator">-l</span>GL -lglut main.cpp  -o <span class="hljs-built_in">test</span></div></div></div></div></code></pre>
+
+<p>Step 5 - Run it</p>
+
+</div><div id="wmd-preview-section-222" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs bash"><div><div><div>./<span class="hljs-built_in">test</span></div></div></div></code></pre>
+
+<p>Using Cmake <br>
+That is it. If you would like to use the cmake to manage and compile you project you will need to ignore step 4 and 5 and follow this post: How to use <a href="http://igorbarbosa.com/articles/how-to-use-opengl-freeglut-and-cmake/" target="_blank">OpenGL/ Freeglut and CMake</a></p></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html><html><head><title>对TextView获取焦点和onclick冲突的解决</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-9" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-91" class="wmd-preview-section preview-content">
+
+<h3 id="对textview获取焦点和onclick冲突的解决">对TextView获取焦点和onclick冲突的解决</h3>
+
+<p>分析View源码中的onTouchEvent源码处理:(\android_src\frameworks\base\core\java\android\view):</p>
+
+</div><div id="wmd-preview-section-227" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs groovy"><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><div><span class="hljs-keyword">case</span> MotionEvent.<span class="hljs-string">ACTION_UP:</span></div><div> <span class="hljs-typename">boolean</span> focusTaken = <span class="hljs-literal">false</span>;</div><div> <span class="hljs-keyword">if</span> (isFocusable() &amp;&amp; isFocusableInTouchMode() &amp;&amp; !isFocused()) {</div><div>   focusTaken = requestFocus();<span class="hljs-comment">//设置焦点</span></div><div> }</div><div> <span class="hljs-keyword">if</span> (!focusTaken) {</div><div>   <span class="hljs-comment">// Use a Runnable and post this rather than calling</span></div><div>   <span class="hljs-comment">// performClick directly. This lets other visual state</span></div><div>   <span class="hljs-comment">// of the view update before click actions start.</span></div><div>    <span class="hljs-keyword">if</span> (mPerformClick == <span class="hljs-literal">null</span>) {</div><div>         mPerformClick = <span class="hljs-keyword">new</span> PerformClick();</div><div>    }</div><div>   <span class="hljs-keyword">if</span> (!post(mPerformClick)) {</div><div>         performClick();</div><div>    }</div><div>  }</div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></code></pre>
+
+<blockquote>
+  <p><code>知道如果isFocusableInTouchMode是false,就是没有设置获取触摸焦点属性时候,我们的View会主动调用performClick触发onClick()回调，但是如果isFocusableInTouchMode是true，就不会主动触发onClick，而是像按键处理一样去设置焦点。</code> <br>
+  当我们的控件(比如Button)设置了相关属性:</p>
+</blockquote>
+
+</div><div id="wmd-preview-section-315" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs stylus"><div><div><div><div><span class="hljs-function"><span class="hljs-title">setFocusable</span><span class="hljs-params">(true)</span></span></div><div><span class="hljs-function"><span class="hljs-title">setFocusableInTouchMode</span><span class="hljs-params">(true)</span></span></div></div></div></div></code></pre>
+
+<p>那么当我们按键处理的时候肯定是正常的，但是当我们点击该控件时候，肯定会调用<strong>onFocusChange</strong>回调，前面我们分析了是不会触发<strong>onClick</strong>回调的 <br>
+也就是说，这种情况下我们只是把焦点移到该控件，需要我们再在该控件点击一下，才会触发<strong>onClick</strong>事件. <br>
+所以主界面我们做了一个处理,达到的效果就是我们用鼠标点击控件时候，不仅焦点移动到该控件，还会触发<strong>onClick</strong>事件： <br>
+默认没有设置<strong>setFocusableInTouchMode</strong>时候是直接会触发<strong>onClick</strong>事件，而且是没有焦点的概念。 <br>
+<strong>setFocusableInTouchMode(true)</strong>后会设置焦点，但是不会触发<strong>onClick</strong>事件。 <br>
+我们的做法就是在<strong>onFocusChange</strong>实现我们自己的处理，如下:</p></div><div id="wmd-preview-section-321" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs aspectj"><div><div><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onFocusChange</span><span class="hljs-params">(View v, <span class="hljs-keyword">boolean</span> hasFocus)</span> </span>{</div><div>   <span class="hljs-keyword">if</span> (hasFocus) {  </div><div>    <span class="hljs-keyword">if</span> (v.isInTouchMode())<span class="hljs-comment">//判断是否是触摸，鼠标点击来切换焦点</span></div><div>    {  </div><div>     ((Button)v).performClick();  </div><div>    }  </div><div>   }</div><div> }</div><div>}</div></div></div></code></pre>
+
+<blockquote>
+  <p>调用performClick方法主动触发控件的onClick事件(和View源码onTouchEvent的MotionEvent.ACTION_UP一样处理)。实际上我们也可以利用performClick方法来模拟任何控件的鼠标点击处理等(一般不需要我们这样做而已)</p>
+</blockquote></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
